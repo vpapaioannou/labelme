@@ -89,6 +89,23 @@ def draw_label(label, img=None, label_names=None, colormap=None, **kwargs):
 
     colormap = _validate_colormap(colormap, len(label_names))
 
+    # make sure that class "Ignore" is always at the end
+    try:
+        i = label_names.index( "Ignore")
+        # update the values for classes that come after "Ignore" class only
+        if label_names[ i] != label_names[ -1]:
+            ii = len( np.unique( label))
+            label = np.where( label == i, ii, label)
+            label = np.where( label > i, label - 1, label)
+            label_names.remove( "Ignore")
+            label_names.append( "Ignore")
+        for label_value, label_name in enumerate(label_names):
+            print( np.unique( label), label_value, label_name)
+    except ValueError:
+        # label "Ignore" is not in the list
+        # nothing to ignore in this image
+        pass
+    
     label_viz = label2rgb(
         label, img, n_labels=len(label_names), colormap=colormap, **kwargs
     )
