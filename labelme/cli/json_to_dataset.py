@@ -56,9 +56,14 @@ def main():
         label_names[value] = name
     lbl_viz = utils.draw_label(lbl, img, label_names)
 
-    PIL.Image.fromarray(img).save(osp.join(out_dir, 'img.png'))
-    utils.lblsave(osp.join(out_dir, 'label.png'), lbl)
-    PIL.Image.fromarray(lbl_viz).save(osp.join(out_dir, 'label_viz.png'))
+    # PIL.Image.fromarray(img).save(osp.join(out_dir, 'img.png'))
+    # utils.lblsave(osp.join(out_dir, 'label.png'), lbl)
+    # PIL.Image.fromarray(lbl_viz).save(osp.join(out_dir, 'label_viz.png'))
+
+    # vpapaioannou : enable custom output files based on the input .json file name
+    PIL.Image.fromarray(img).save(osp.join(out_dir, osp.basename(json_file)[ : -5] + '.png'))
+    utils.lblsave(osp.join(out_dir, osp.basename(json_file)[ : -5] + '_label.png'), lbl)
+    PIL.Image.fromarray(lbl_viz).save(osp.join(out_dir, osp.basename(json_file)[ : -5] + '_label_viz.png'))
 
     with open(osp.join(out_dir, 'label_names.txt'), 'w') as f:
         for lbl_name in label_names:
