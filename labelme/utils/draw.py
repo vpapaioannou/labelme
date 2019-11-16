@@ -89,7 +89,7 @@ def draw_label(label, img=None, label_names=None, colormap=None, **kwargs):
 
     colormap = _validate_colormap(colormap, len(label_names))
 
-    # make sure that class "Ignore" is always at the end
+    # vpapaioannou : ensure that class "Ignore" is always at the end
     try:
         i = label_names.index( "Ignore")
         # update the values for classes that come after "Ignore" class only
@@ -104,6 +104,8 @@ def draw_label(label, img=None, label_names=None, colormap=None, **kwargs):
     except ValueError:
         # label "Ignore" is not in the list
         # nothing to ignore in this image
+        # this Exception is raised when .index() has nothing to
+        # return
         pass
     
     label_viz = label2rgb(
