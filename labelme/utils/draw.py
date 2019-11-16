@@ -104,8 +104,7 @@ def draw_label(label, img=None, label_names=None, colormap=None, **kwargs):
     except ValueError:
         # label "Ignore" is not in the list
         # nothing to ignore in this image
-        # this Exception is raised when .index() has nothing to
-        # return
+        # it is raised when .index() has nothing to return
         pass
     
     label_viz = label2rgb(
