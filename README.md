@@ -43,7 +43,7 @@ It is written in Python and uses Qt for its graphical interface.
 - [x] Exporting VOC-format dataset for semantic/instance segmentation. ([semantic segmentation](examples/semantic_segmentation), [instance segmentation](examples/instance_segmentation))
 - [x] Exporting COCO-format dataset for instance segmentation. ([instance segmentation](examples/instance_segmentation))
 
-## Added Features by vpapaioannou
+## Added Features by vpapaioannou for multiple files input
 
 - [x] Given a class "Ignore" to denote all regions that should be ignored during some processing X, e.g. Deep Learning training, ensure that this class will always be shown with the same color accross images generated with <code>labelme_json_to_dataset</code> command. It is assumed that every image has the same amount of "non - Ignore" classes i.e. that should be taken in account in processing X, e.g. Deep Learning training.
 - [x] Generated files by <code>labelme_json_to_dataset</code> have the same name as the input while maintaining the corresponding file extensions. For example, if input file is A then the output will be files A.png, A_label.png and A_label_viz.png.
