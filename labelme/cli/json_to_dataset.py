@@ -41,14 +41,20 @@ def main():
             imageData = base64.b64encode(imageData).decode('utf-8')
     img = utils.img_b64_to_arr(imageData)
 
-    label_name_to_value = {'_background_': 0}
+    # vpapaioannou : ensure "Ignore" class is always at the end/has the largest id
+    label_name_to_value, ignore = {'_background_': 0}, False
     for shape in sorted(data['shapes'], key=lambda x: x['label']):
         label_name = shape['label']
-        if label_name in label_name_to_value:
+        if label_name == 'Ignore':
+            ignore = True
+            continue
+        elif label_name in label_name_to_value:
             label_value = label_name_to_value[label_name]
         else:
             label_value = len(label_name_to_value)
             label_name_to_value[label_name] = label_value
+    if ignore:
+        label_name_to_value[ 'Ignore'] = len( label_name_to_value)
     lbl = utils.shapes_to_label(img.shape, data['shapes'], label_name_to_value)
 
     label_names = [None] * (max(label_name_to_value.values()) + 1)
@@ -56,11 +62,11 @@ def main():
         label_names[value] = name
     lbl_viz = utils.draw_label(lbl, img, label_names)
 
+    # vpapaioannou : enable custom output files based on the input .json file name
     # PIL.Image.fromarray(img).save(osp.join(out_dir, 'img.png'))
     # utils.lblsave(osp.join(out_dir, 'label.png'), lbl)
     # PIL.Image.fromarray(lbl_viz).save(osp.join(out_dir, 'label_viz.png'))
 
-    # vpapaioannou : enable custom output files based on the input .json file name
     PIL.Image.fromarray(img).save(osp.join(out_dir, osp.basename(json_file)[ : -5] + '.png'))
     utils.lblsave(osp.join(out_dir, osp.basename(json_file)[ : -5] + '_label.png'), lbl)
     PIL.Image.fromarray(lbl_viz).save(osp.join(out_dir, osp.basename(json_file)[ : -5] + '_label_viz.png'))
